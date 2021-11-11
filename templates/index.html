@@ -8,9 +8,9 @@
 <body>
 
     <nav>
-        <a href="">Home</a>
-        <a href="">Question List</a>
-        <a href="">Add Question</a>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('get_questions') }}">Question List</a>
+        <a href="{{ url_for('new_question') }}">Add Question</a>
     </nav>
 
     <h1>Welcome to our Q&A site!</h1>
