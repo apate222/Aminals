@@ -31,7 +31,11 @@ def index():
 def get_questions():
     return render_template('questions.html', notes=notes, user=a_user)
 
-@app.route('/notes/new', methods=['GET', 'POST'])
+@app.route('/questions/<q_id>')
+def get_question(q_id):
+    return render_template('question.html')
+
+@app.route('/questions/new', methods=['GET', 'POST'])
 def new_question():
     return render_template('new.html')
 
