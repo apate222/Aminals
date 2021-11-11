@@ -27,9 +27,15 @@ notes = {1: {'title': 'First Note', 'text': 'This is my first note', 'date': '10
 def index():
     return render_template('index.html', user = a_user)
 
-@app.route('/notes')
-def get_notes():
-    return render_template('notes.html', notes=notes, user=a_user)
+@app.route('/questions')
+def get_questions():
+    return render_template('questions.html', notes=notes, user=a_user)
+
+@app.route('/notes/new', methods=['GET', 'POST'])
+def new_question():
+    return render_template('new.html')
+
+
 
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
