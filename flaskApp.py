@@ -25,14 +25,22 @@ with app.app_context():
 @app.route('/')
 @app.route('/index')
 def index():
+    a_user = db.session.query(User).filter_by(email='test@uncc.edu')
+
     return render_template('index.html', user = a_user)
 
 @app.route('/questions')
 def get_questions():
+    a_user = db.session.query(User).filter_by(email='test@uncc.edu')
+    my_notes = db.session.query(Question).all()
+
     return render_template('questions.html', questions=questions, user=a_user)
 
 @app.route('/question/<q_id>')
 def get_question(q_id):
+    a_user = db.session.query(User).filter_by(email='test@uncc.edu')
+    my_notes = db.session.query(Question).filter_by(id=q_id)
+
     return render_template('question.html', question=questions[int(q_id)], user=a_user)
 
 @app.route('/questions/new', methods=['GET', 'POST'])
@@ -48,8 +56,9 @@ def new_question():
         new_record = Question(title, text, today)
         db.session.add(new_record)
         db.session.commit()
-        return redirect(url_for('get_notes'))
+        return redirect(url_for('get_questions'))
     else:
+        a_user = db.session.query(User).filter_by(email='test@uncc.edu')
         return render_template('new.html', user = a_user)
 
 
