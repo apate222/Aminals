@@ -13,7 +13,7 @@ from flask import redirect, url_for
 app = Flask(__name__)     # create an app
 
 a_user = {'name': 'Casey', 'email':'cwill399@uncc.edu'}
-notes = {1: {'title': 'First Note', 'text': 'This is my first note', 'date': '10-1-2020'},
+questions = {1: {'title': 'First Note', 'text': 'This is my first note', 'date': '10-1-2020'},
              2: {'title': 'Second Note', 'text': 'This is my second note', 'date': '10-2-2020'},
              3: {'title': 'Third Note', 'text': 'This is my third note', 'date': '10-3-2020'}
              }
@@ -29,11 +29,11 @@ def index():
 
 @app.route('/questions')
 def get_questions():
-    return render_template('questions.html', notes=notes, user=a_user)
+    return render_template('questions.html', questions=questions, user=a_user)
 
-@app.route('/questions/<q_id>')
+@app.route('/question/<q_id>')
 def get_question(q_id):
-    return render_template('question.html')
+    return render_template('question.html', question=questions[int(q_id)], user=a_user)
 
 @app.route('/questions/new', methods=['GET', 'POST'])
 def new_question():
