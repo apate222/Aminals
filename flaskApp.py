@@ -13,7 +13,10 @@ from models import User as User
 app = Flask(__name__)     # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_note_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
-
+#  Bind SQLAlchemy db object to this Flask app
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 
 # @app.route is a decorator. It gives the function "index" special powers.
 # In this case it makes it so anyone going to "your-url/" makes this function
