@@ -23,6 +23,12 @@
             <th>Subject</th>
             <th>Date</th>
         </tr>
+	{% for key, value in questions.items() %}
+            <tr>
+                <td><a href="questions/{{key}}">{{ value.title }}</a></td>
+                <td>{{ value.date }}</td>
+            </tr>
+            {% endfor %}
     </table>
 
 </body>
