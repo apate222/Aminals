@@ -32,14 +32,14 @@ def index():
 @app.route('/questions')
 def get_questions():
     a_user = db.session.query(User).filter_by(email='test@uncc.edu')
-    my_question = db.session.query(Question).all()
+    my_questions = db.session.query(Question).all()
 
-    return render_template('question.html', question=my_question, user=a_user)
+    return render_template('question.html', question=my_questions, user=a_user)
 
 @app.route('/question/<q_id>')
 def get_question(q_id):
     a_user = db.session.query(User).filter_by(email='test@uncc.edu')
-    my_notes = db.session.query(Question).filter_by(id=q_id)
+    my_question = db.session.query(Question).filter_by(id=q_id).one()
 
     return render_template('question.html', question=my_question, user=a_user)
 
