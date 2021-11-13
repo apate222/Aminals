@@ -23,10 +23,16 @@
             <th>Subject</th>
             <th>Date</th>
         </tr>
-	{% for key, value in questions.items() %}
+	{% for question in questions %}
             <tr>
-                <td><a href="questions/{{key}}">{{ value.title }}</a></td>
-                <td>{{ value.date }}</td>
+                <td><a href="{{ url_for('get_question', q_id=question.id) }}">{{ question.title }}</a></td>
+                <td>{{ question.date }}</td>
+		<td><a href="{{ url_for('update_question', q_id=question.id) }}">Edit</a></td>
+                <td>
+                    <form action="{{ url_for('delete_question', q_id=question.id) }}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
             </tr>
             {% endfor %}
     </table>

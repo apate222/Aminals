@@ -13,7 +13,11 @@ from models import User as User
 app = Flask(__name__)     # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_note_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
-
+#  Bind SQLAlchemy db object to this Flask app
+db.init_app(app)
+# Setup models
+with app.app_context():
+    db.create_all()   # run under the app context
 
 # @app.route is a decorator. It gives the function "index" special powers.
 # In this case it makes it so anyone going to "your-url/" makes this function
@@ -22,15 +26,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 @app.route('/')
 @app.route('/index')
 def index():
+    a_user = db.session.query(User).filter_by(email='mogli@uncc.edu').one()
     return render_template('index.html', user = a_user)
 
 @app.route('/questions')
 def get_questions():
+    a_user = db.session.query(User).filter_by(email='mogli@uncc.edu').one()
+    questions = db.session.query(Question).all()
     return render_template('questions.html', questions=questions, user=a_user)
 
-@app.route('/question/<q_id>')
+@app.route('/questions/<q_id>')
 def get_question(q_id):
-    return render_template('question.html', question=questions[int(q_id)], user=a_user)
+    a_user = db.session.query(User).filter_by(email='mogli@uncc.edu').one()
+    question = db.session.query(Question).filter_by(id=q_id).one()
+    return render_template('question.html', question=question, user=a_user)
 
 @app.route('/questions/new', methods=['GET', 'POST'])
 def new_question():
@@ -45,11 +54,34 @@ def new_question():
         new_record = Question(title, text, today)
         db.session.add(new_record)
         db.session.commit()
-        return redirect(url_for('get_notes'))
+        return redirect(url_for('get_questions'))
     else:
+        a_user = db.session.query(User).filter_by(email='mogli@uncc.edu').one()
         return render_template('new.html', user = a_user)
 
+@app.route('/questions/edit/<q_id>', methods=['GET', 'POST'])
+def update_question(q_id):
+    if request.method == 'POST':
+        title = request.form['title']
+        text = request.form['noteText']
+        question = db.session.query(Question).filter_by(id=q_id).one()
+        question.title = title
+        question.text = text
+        db.session.add(question)
+        db.session.commit()
+        return redirect(url_for('get_questions'))
+    else:
+        a_user = db.session.query(User).filter_by(email='mogli@uncc.edu').one()
+        question = db.session.query(Question).filter_by(id=q_id).one()
+        return render_template('new.html', question=question, user=a_user)
 
+@app.route('/questions/delete/<q_id>', methods=['POST'])
+def delete_question(q_id):
+    question = db.session.query(Question).filter_by(id=q_id).one()
+    db.session.delete(question)
+    db.session.commit()
+
+    return redirect(url_for('get_questions'))
 
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
