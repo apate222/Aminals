@@ -29,6 +29,24 @@
             <td>{{ question.date }}</td>
         </tr>
     </table>
-
+    {% if question.comments %}
+        {% if question.comments|length > 0 %}
+        <h2>Comments</h2>
+        <ul>
+    {% for comment in question.comments %}
+      <li>{{ comment.content }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endif %}
+<form action="{{ url_for('new_comment', q_id=question.id) }}" method="post">
+  <div class="formwrapper">
+    <h2 class="title">Add a comment</h2>
+    <div class="form-field">
+      {{ form.comment.label }} <br/> {{ form.comment }}
+    </div>
+    {{ form.submit }}
+  </div>
+</form>
 </body>
 </html>
