@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 </head>
     <body>
         <div class="navdiv">
 
-            <nav>
+            <nav class="left">
                 <a href="{{ url_for('index') }}"> Home</a> ||
                 <a href="{{ url_for('get_questions') }}"> My Questions</a> ||
                 <a href="{{ url_for('new_question') }}">Add Question</a>
             </nav>
         {% if user %}
-		<nav>
+		<nav class="right">
 			<a href="{{ url_for('logout') }}">Logout</a>
 		</nav>
 	{% else %}
-		<nav>
+		<nav class="right">
 			<a href="{{ url_for('login') }}">Sign In</a>
 			<a href="{{ url_for('register') }}">Register</a>
 		</nav>
