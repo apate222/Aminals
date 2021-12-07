@@ -38,7 +38,14 @@ def index():
 @app.route('/questions')
 def get_questions():
     if session.get('user'):
-        my_questions = db.session.query(Question).all()
+        search = request.args.get('titleSearch')
+
+        if search:
+            my_questions = Question.query.filter(Question.title.contains(search) |
+                                           Question.text.contains(search))
+        else:
+            my_questions = Question.query.all()
+
         return render_template('questions.html', questions=my_questions, user=session['user'])
     else:
         return redirect(url_for('login'))
@@ -175,6 +182,7 @@ def new_comment(q_id):
 
     else:
         return redirect(url_for('login'))
+
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 
