@@ -39,12 +39,26 @@ def index():
 def get_questions():
     if session.get('user'):
         search = request.args.get('titleSearch')
+        sortOrder = request.args.get('sort')
 
         if search:
-            my_questions = Question.query.filter(Question.title.contains(search) |
-                                           Question.text.contains(search))
+
+            if sortOrder == "dateIncreasing":
+                my_questions = Question.query.filter(Question.title.contains(search) |
+                                               Question.text.contains(search)).order_by(Question.date.asc())
+            elif sortOrder == "dateDecreasing":
+                my_questions = Question.query.filter(Question.title.contains(search) |
+                                                     Question.text.contains(search)).order_by(Question.date.desc())
+            else:
+                my_questions = Question.query.filter(Question.title.contains(search) |
+                                                     Question.text.contains(search))
         else:
-            my_questions = Question.query.all()
+            if sortOrder == "dateIncreasing":
+                my_questions = Question.query.order_by(Question.date.asc()).all()
+            elif sortOrder == "dateDecreasing":
+                my_questions = Question.query.order_by(Question.date.desc()).all()
+            else:
+                my_questions = Question.query.all()
 
         return render_template('questions.html', questions=my_questions, user=session['user'])
     else:
