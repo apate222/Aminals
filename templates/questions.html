@@ -20,10 +20,16 @@
 
     <h2>Question List</h2>
 
-	<form method="GET">
-		<input type="search" placeholder="Search" aria-label="Search" name="titleSearch">
-        <button type="submit">Search</button>
-	</form>
+    <form method="GET" class="right">
+        <input type="search" placeholder="Search" aria-label="Search" name="titleSearch">
+        <button type="submit">Search</button><br>
+        <label for="sort">Sort By:</label>
+        <select id="sort" name="sort">
+            <option value="starter" selected>--</option>
+            <option value="dateIncreasing">Date Increasing</option>
+            <option value="dateDecreasing">Date Decreasing</option>
+        </select>
+    </form>
 
     <table>
         <tr>
