@@ -8,12 +8,16 @@ class Question(db.Model):
     date = db.Column("date", db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     comments = db.relationship("Comment", backref="question", cascade="all, delete-orphan", lazy=True)
+    rating = db.Column("rate", db.Integer)
+    fav = db.Column("fav", db.Boolean)
 
-    def __init__(self, title, text, date, user_id):
+    def __init__(self, title, text, date, user_id, rating, fav):
         self.title = title
         self.text = text
         self.date = date
         self.user_id = user_id
+        self.rating = rating
+        self.fav = fav
 
 
 class User(db.Model):

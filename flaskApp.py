@@ -64,7 +64,7 @@ def get_questions():
     else:
         return redirect(url_for('login'))
 
-@app.route('/questions/<q_id>')
+@app.route('/question/<q_id>')
 def get_question(q_id):
     if session.get('user'):
 
@@ -85,7 +85,9 @@ def new_question():
             today = date.today()
 
             today = today.strftime("%m-%d-%Y")
-            new_record = Question(title, text, today, session['user_id'])
+            rating = 0
+            fav = 0
+            new_record = Question(title, text, today, session['user_id'], rating, fav)
             db.session.add(new_record)
             db.session.commit()
             return redirect(url_for('get_questions'))
@@ -197,6 +199,57 @@ def new_comment(q_id):
     else:
         return redirect(url_for('login'))
 
+@app.route('/questions/rate_up/<q_id>', methods=['POST'])
+def rate_up(q_id):
+    if session.get('user'):
+        question = db.session.query(Question).filter_by(id=q_id).one()
+        question.rating = question.rating + 1
+        db.session.add(question)
+        db.session.commit()
+        return redirect(url_for('get_question', q_id=q_id))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/questions/rate_down/<q_id>', methods=['POST'])
+def rate_down(q_id):
+    if session.get('user'):
+        question = db.session.query(Question).filter_by(id=q_id).one()
+        question.rating = question.rating - 1
+        db.session.add(question)
+        db.session.commit()
+        return redirect(url_for('get_question', q_id=q_id))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/questions/unfav/<q_id>', methods=['POST'])
+def unfav(q_id):
+    if session.get('user'):
+        question = db.session.query(Question).filter_by(id=q_id).one()
+        question.fav = False
+        db.session.add(question)
+        db.session.commit()
+        return redirect(url_for('get_question', q_id=q_id))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/questions/fav/<q_id>', methods=['POST'])
+def fav(q_id):
+    if session.get('user'):
+        question = db.session.query(Question).filter_by(id=q_id).one()
+        question.fav = True
+        db.session.add(question)
+        db.session.commit()
+        return redirect(url_for('get_question', q_id=q_id))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/favorites')
+def get_favs():
+    if session.get('user'):
+        my_questions = Question.query.filter(Question.fav.is_(True))
+        return render_template('favorite.html', questions=my_questions, user=session['user'])
+    else:
+        return redirect(url_for('login'))
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 

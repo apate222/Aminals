@@ -10,14 +10,14 @@
     <nav class="left">
         <a href="{{ url_for('index') }}">Home || </a>
         <a href="{{ url_for('get_questions') }}">Question List || </a>
-        <a href="{{ url_for('new_question') }}">Add Question || </a>
-	<a href="{{ url_for('get_favs') }}">Favorites</a>
+        <a href="{{ url_for('new_question') }}">Add Question</a>
+	<a href="{{ url_for('get_favs') }}">Add Question</a>
     </nav>
     <nav class="right">
         <a href="{{ url_for('logout') }}">Logout</a>
     </nav>
 
-    <h1>View and post questions here</h1>
+    <h1>View favorited posts here</h1>
 
     <h2>Question List</h2>
 
@@ -35,7 +35,7 @@
     <table>
         <tr>
             <th>Title</th>
-            <th>Date </th>
+            <th>Date</th>
         </tr>
 	{% for question in questions %}
             <tr>

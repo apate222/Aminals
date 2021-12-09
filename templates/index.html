@@ -15,12 +15,13 @@
 		</nav>
 	{% endif %}
 </head>
-<body>
+<body style="background-color:#90ee90;">
 
-    <nav class="left">
+    <nav class="left" style = "green">
         <a href="{{ url_for('index') }}">Home || </a>
         <a href="{{ url_for('get_questions') }}">Question List || </a>
-        <a href="{{ url_for('new_question') }}">Add Question</a>
+        <a href="{{ url_for('new_question') }}">Add Question || </a>
+	<a href="{{ url_for('get_favs') }}">Favorites</a>
     </nav>
 
     <h1>Welcome {{user}} to Code Query!</h1>
