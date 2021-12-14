@@ -7,20 +7,36 @@ h1{
 h2{
     color:black;
     background:	salmon;
+    font-size: 50px;
 }
 
 .right {
     position: absolute;
     right: 0px;
-    width: 300px;
+    width: 500px;
     border: 3px solid salmon;
     padding: 10px;
+    font-size: 25px;
 }
 
 .left {
     position: relative;
     left: 0px;
-    width: 350px;
+    width: 500px;
     border: 3px solid salmon;
     padding: 10px;
+    font-size: 25px;
+}
+table, td, th{
+  border: 2.5px solid black;
+  border-collapse: collapse;
+}
+th{
+font-size: 40px;
+}
+td{
+font-size: 30px;
+}
+li{
+font-size: 30px;
 }

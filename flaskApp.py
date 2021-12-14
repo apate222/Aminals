@@ -190,7 +190,8 @@ def new_comment(q_id):
         if comment_form.validate_on_submit():
             # get comment data
             comment_text = request.form['comment']
-            new_record = Comment(comment_text, int(q_id), session['user_id'])
+            rating = 0
+            new_record = Comment(comment_text, int(q_id), session['user_id'], rating)
             db.session.add(new_record)
             db.session.commit()
 
@@ -250,6 +251,7 @@ def get_favs():
         return render_template('favorite.html', questions=my_questions, user=session['user'])
     else:
         return redirect(url_for('login'))
+
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 

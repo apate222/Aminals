@@ -5,7 +5,7 @@
     <title>Code Query</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
-<body>
+<body style="background-color:lightgrey;">
 
     <nav class="left">
         <a href="{{ url_for('index') }}">Home || </a>
@@ -18,13 +18,13 @@
     </nav>
     <h1>Question Details</h1>
 
-    <table class="w3-table w3-bordered">
+    <table class="btab">
         <tr>
-            <th>| Title |</th>
-            <th>| Subject |</th>
-            <th>| Date |</th>
-	    <th>| Rating |</th>
-	    <th>| Favorite? |</th>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Date</th>
+	    <th>Rating</th>
+	    <th>Favorite?</th>
         </tr>
         <tr>
             <td>{{ question.title }}</td>
@@ -32,23 +32,9 @@
             <td>{{ question.date }}</td>
 	    <td>{{ question.rating }}</td>
 	    <td>{{ question.fav }}</td>
-	<th> </th>
-	<th> </th>
-	<th> </th>
         </tr>
     </table>
-    {% if question.comments %}
-        {% if question.comments|length > 0 %}
-        <h2>Comments</h2>
-        <ul>
-    {% for comment in question.comments %}
-      <li>{{ comment.content }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endif %}
-
-<table class="w3-table w3-bordered">
+<table class=right>
     <form action="{{ url_for('rate_up', q_id=question.id) }}" method="post">
         <input type="submit" value="Rate Up">
     </form>
@@ -63,7 +49,16 @@
         <input type="submit" value="Unfavorite Post">
     </form>
 </table>
-
+    {% if question.comments %}
+        {% if question.comments|length > 0 %}
+        <h2>Comments</h2>
+        <ul>
+    {% for comment in question.comments %}
+      <li>{{ comment.content }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endif %}
 <form action="{{ url_for('new_comment', q_id=question.id) }}" method="post">
   <div class="formwrapper">
     <h2 class="title">Add a comment</h2>
